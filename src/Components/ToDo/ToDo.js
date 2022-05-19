@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import TaskList from '../TaskList/TaskList';
 
 const ToDo = () => {
+    
     const handleAddTask = e=>{
         e.preventDefault();
         const name = e.target.name.value;
         const description = e.target.description.value;
          console.log(name,description);
         const task = {name, description}
-        fetch('http://localhost:5000/task', {
+        fetch('https://mysterious-meadow-63454.herokuapp.com/task', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -17,6 +18,7 @@ const ToDo = () => {
         })
             .then(res => res.json())
             .then(data => {
+               
                 console.log("Added New task ", data);
                 alert('successfully new task added in to do list')
                 e.target.reset()
@@ -25,7 +27,7 @@ const ToDo = () => {
     }
     return (
         <div>
-            <h2 className='text-center my-5'>Add Your To Do List Here</h2>
+            <h2 className='text-center mt-5 text-primary fw-bold'>Add Your Task Here</h2>
             <form onSubmit={handleAddTask}>
                 <div className='w-50 mx-auto'>
                     <div class="input-group flex-nowrap">
@@ -35,7 +37,7 @@ const ToDo = () => {
                         <textarea name="description" class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
                         <label for="floatingTextarea">Description</label>
                     </div>
-                    <input type="submit" value="Add Task" />
+                    <input className='border-0 btn-success px-3 mt-2 py-1' type="submit" value="Add Task" />
                 </div>
             </form>
             {/* <button type="button" class="btn btn-info">Complete</button> */}
