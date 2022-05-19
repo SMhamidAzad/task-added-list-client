@@ -7,6 +7,22 @@ const TaskList = () => {
             .then(res => res.json())
             .then(data => setTasks(data))
     }, [])
+
+    const handleDelete = id => {
+        const proceed = window.confirm('Are you sure you want to delete?');
+        if (proceed) {
+            const url = `http://localhost:5000/task/${id}`;
+            fetch(url, {
+                method: 'DELETE'
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    const remaining = tasks.filter(task => task._id !== id);
+                    setTasks(remaining);
+                })
+        }
+    }
     return (
         <div className='container'>
             <h2 className="text-center">Task List</h2>
@@ -22,13 +38,13 @@ const TaskList = () => {
                 <tbody>
 
                     {
-                        tasks.map((task,index) =>
-                            <tr>
+                        tasks.map((task, index) =>
+                            <tr key={task._id}>
                                 <th scope="row">{index}</th>
                                 <td>{task.name}</td>
                                 <td>{task.description}</td>
                                 <td>
-                                    <button>Delete</button>
+                                    <button onClick={() => handleDelete(task._id)}>Delete</button>
                                 </td>
                             </tr>)
                     }
